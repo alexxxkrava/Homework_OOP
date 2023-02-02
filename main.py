@@ -20,14 +20,13 @@ class Student:
             self.aver_grade += sum(self.grades[i])/len(self.grades[i])
         self.aver_grade /= len(self.grades)
         return self.aver_grade
-    def compare(self, student):
-        if isinstance(student, Student):
-            if student.aver_grade > self.aver_grade:
-                print(f'{student.name} {student.aver_grade} больше {self.name} {self.aver_grade}')
-            elif student.aver_grade < self.aver_grade:
-                print(f'{student.name} {student.aver_grade} меньше {self.name} {self.aver_grade}')
-            else:
-                print(f'{student.name} {student.aver_grade} равна {self.name} {self.aver_grade}')
+    #Магические методы сравнения среднего балла судентов
+    def __eq__(self, other):
+        return other.aver_grade == self.aver_grade
+    def __gt__(self, other):
+        return other.aver_grade > self.aver_grade
+    def __lt__(self, other):
+        return other.aver_grade < self.aver_grade
     def __str__(self):
         return f'Имя: {self.name} \nФамилия: {self.surname} \nСредняя оценка за домашние задания: {self._average()} \nКурсы в процессе изучения:: {self.courses_in_progress} \nЗавершенные курсы: {self.finished_courses}'
 
@@ -47,14 +46,14 @@ class Lecturer(Mentor):
             self.aver_grade += sum(self.grades[i])/len(self.grades[i])
         self.aver_grade /= len(self.grades)
         return self.aver_grade
-    def compare(self, lecturer):
-        if isinstance(lecturer, Lecturer):
-            if lecturer.aver_grade > self.aver_grade:
-                print(f'{lecturer.name} {lecturer.aver_grade} больше {self.name} {self.aver_grade}')
-            elif lecturer.aver_grade < self.aver_grade:
-                print(f'{lecturer.name} {lecturer.aver_grade} меньше {self.name} {self.aver_grade}')
-            else:
-                print(f'{lecturer.name} {lecturer.aver_grade} равна {self.name} {self.aver_grade}')
+
+    # Магические методы сравнения среднего балла лекторов
+    def __eq__(self, other):
+        return other.aver_grade == self.aver_grade
+    def __gt__(self, other):
+        return other.aver_grade > self.aver_grade
+    def __lt__(self, other):
+            return other.aver_grade < self.aver_grade
     def __str__(self):
         return f'Имя: {self.name} \nФамилия: {self.surname} \nСредняя оценка за лекции: {self._average()}'
 
@@ -117,12 +116,12 @@ stud_1.rate_lec(lec_2, 'Python', 8)
 stud_2.rate_lec(lec_2, 'Python', 8)
 
 #Ставим оценку второму лектору за лекцию по Гиту
-stud_1.rate_lec(lec_2, 'GIT', 10)
-stud_2.rate_lec(lec_2, 'GIT', 10)
+stud_1.rate_lec(lec_2, 'GIT', 8)
+stud_2.rate_lec(lec_2, 'GIT', 8)
 
 #Ставим оценку первому студенту  за курс по Питону
-rew_1.rate_hw(stud_1, 'Python', 1)
-rew_2.rate_hw(stud_1, 'Python', 1)
+rew_1.rate_hw(stud_1, 'Python', 2)
+rew_2.rate_hw(stud_1, 'Python', 2)
 
 #Ставим оценку первому студенту  за курс по Гиту
 rew_1.rate_hw(stud_1, 'GIT', 2)
@@ -151,7 +150,7 @@ def aver_all_lec(lec, course):
         all_lec_grades.extend(i.grades[course])
     print(f'Cредняя оценка за лекции по всем лекторам в рамках  курса {course} равна {sum(all_stud_grades) / len(all_stud_grades)}')
 
-#Выводим всю инфу
+# #Выводим всю инфу
 print(stud_1)
 print()
 print(stud_2)
@@ -164,12 +163,16 @@ print(rew_1)
 print()
 print(rew_2)
 print()
-stud_1.compare(stud_2)
-print()
-lec_1.compare(lec_2)
-print()
 aver_all_stud(all_stud, 'GIT')
 print()
 aver_all_lec(all_lec, 'Python')
-
+print()
+print('Сравнение между собой студентов по средней оценке за домашние задания с помощью =, <, >')
+print(stud_1 == stud_2)
+print(stud_1 < stud_2)
+print(stud_1 > stud_2)
+print('Сравнение между собой лекторов по средней оценке за лекции с помощью =, <, >')
+print(lec_1 == lec_2)
+print(lec_1 < lec_2)
+print(lec_1 > lec_2)
 
